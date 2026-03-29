@@ -1,10 +1,9 @@
-import express from "express";
 import dotenv from "dotenv";
 import { connectDB } from "./src/config/db.js";
-import userRoute from "./src/routes/user.route.js";
-import productRoute from "./src/routes/product.route.js";
-import { AppError } from "./src/utils/errorHandler.js";
-
+import express from "express";
+import userRoute from "./src/users/routes/user.route.js";
+import productRoute from "./src/products/routers/product.routes.js";
+import { AppError, catchAsync } from "./src/utils/errorHandler.js";
 dotenv.config();
 
 const app = express();
@@ -15,7 +14,7 @@ connectDB();
 app.use("/users", userRoute);
 app.use("/products", productRoute);
 
-app.all("*", (req, res, next) => {
+app.all(/(.*)/, (req, res, next) => {
   next(new AppError(404, `Can't find ${req.originalUrl} on this server!`));
 });
 

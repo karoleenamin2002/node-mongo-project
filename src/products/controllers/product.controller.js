@@ -1,6 +1,6 @@
 import productModel from "../models/product.model.js";
-import { catchAsync, AppError } from "../utils/errorHandler.js";
-import { successResponse } from "../utils/apiResponse.js";
+import { catchAsync, AppError } from "../../utils/errorHandler.js";
+import { successResponse } from "../../utils/apiResponse.js";
 
 export const getAllProducts = catchAsync(async (req, res, next) => {
   const products = await productModel.find();

@@ -1,8 +1,8 @@
 import userModel from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { catchAsync, AppError } from "../utils/errorHandler.js"; 
-import { successResponse } from "../utils/apiResponse.js";
+import { catchAsync, AppError } from "../../utils/errorHandler.js"; 
+import { successResponse } from "../../utils/apiResponse.js";
 
 export const SignUp = catchAsync(async (req, res, next) => {
   const user = await userModel.create(req.body);

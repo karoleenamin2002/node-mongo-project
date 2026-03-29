@@ -6,11 +6,13 @@ import {
   updateProduct,
   deleteProduct,
 } from "../controllers/product.controller.js";
-import { protect } from "../middleware/auth.middleware.js";
-import { authorizeRoles } from "../middleware/role.middleware.js";
+
+// import { protect } from "../../middlewares/auth.middleware.js";
+// import { authorizeRoles } from "../../middlewares/role.middleware.js";
 
 const router = Router();
-const adminOnly = [protect, authorizeRoles("admin")];
+
+const adminOnly = [];
 
 router.get("/", getAllProducts);
 router.get("/:id", getProductById);

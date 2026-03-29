@@ -12,8 +12,8 @@ app.use(express.json());
 
 connectDB();
 
-app.use("/api/v1/users", userRoute);
-app.use("/api/v1/products", productRoute);
+app.use("/users", userRoute);
+app.use("/products", productRoute);
 
 app.all("*", (req, res, next) => {
   next(new AppError(404, `Can't find ${req.originalUrl} on this server!`));

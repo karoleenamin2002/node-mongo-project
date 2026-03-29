@@ -14,8 +14,9 @@ const adminOnly = [protect, authorizeRoles("admin")];
 
 router.get("/", getAllProducts);
 router.get("/:id", getProductById);
-router.post("/", adminOnly, createProduct);
-router.put("/:id", adminOnly, updateProduct);
-router.delete("/:id", adminOnly, deleteProduct);
+
+router.post("/", ...adminOnly, createProduct);
+router.put("/:id", ...adminOnly, updateProduct);
+router.delete("/:id", ...adminOnly, deleteProduct);
 
 export default router;

@@ -2,7 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 import { connectDB } from "./src/config/db.js";
 import cartRouter from "./src/cart/routes/cart.routes.js"
+import ordersRouter from "."
 dotenv.config();
+
 const app = express();
 app.use(express.json());
 app.use("/cart",cartRouter)

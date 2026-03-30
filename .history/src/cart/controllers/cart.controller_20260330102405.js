@@ -1,13 +1,14 @@
-import { AppError, catchAsync } from "../../utils/errorHandler.js";
+import { catchAsync } from "../../utils/errorHandler.js";
 import cartModel from "../models/cart.model.js";
-export const getCart = catchAsync(async (req, res,next) => {
+export const getCart = catchAsync(async (req, res) => {
   let cart = await cartModel
     .findOne({ user: req.user.id })
     .populate("items.product");
-    return successResponse(res, 200, "Cart Products fetched successfully", cart)
+  // res.status(200).json({ message: "success", data: cart });
+  
 })
 
-export const addToCart = catchAsync(async (req, res,next) => {
+export const addToCart = catchAsync(async (req, res) => {
   let { productId, quantity } = req.body;
 
   let cart = await cartModel.findOne({ user: req.user.id });
@@ -21,18 +22,22 @@ export const addToCart = catchAsync(async (req, res,next) => {
     let item = cart.items.find(
       (el) => el.product.toString() === productId
     );
+
     if (item) {
       item.quantity += quantity;
     } else {
       cart.items.push({ product: productId, quantity });
     }
+
     await cart.save();
   }
-    return successResponse(res, 200, "Your Product Added successfully",cart);
-  
+
+  res.status(200).json({ message: "added", data: cart });
 })
 
-export const removeFromCart = catchAsync(async (req, res,next) => {
+
+
+export const removeFromCart = catchAsync(async (req, res) => {
   let { productId } = req.body;
 
   let cart = await cartModel.findOne({ user: req.user.id });
@@ -43,24 +48,19 @@ export const removeFromCart = catchAsync(async (req, res,next) => {
 
   await cart.save();
 
-  // res.status(200).json({ message: "removed", data: cart });
-    return successResponse(res, 200, "Your Product Removed From Cart Successfully", cart);
-  
+  res.status(200).json({ message: "removed", data: cart });
 })
 
-export const updateQty =catchAsync( async (req, res,next) => {
+export const updateQty =catchAsync( async (req, res) => {
   let { productId, quantity } = req.body;
 
   let cart = await cartModel.findOne({ user: req.user.id });
   let item = cart.items.find(
     (el) => el.product.toString() === productId
   );
-  if (!item) {
-        return next(new AppError(404, "Product not found"));
-  }
   if (item) {
     item.quantity = quantity;
   }
   await cart.save();
-  return successResponse(res, 200, "Products Updated successfully", cart);
+  res.status(200).json({ message: "updated", data: cart });
 })

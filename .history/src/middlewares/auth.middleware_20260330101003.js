@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import userModel from "../users/models/user.model.js";
+import userModel from "../users/models/";
 import { catchAsync, AppError } from "../utils/errorHandler.js";
 
 export const protect = catchAsync(async (req, res, next) => {

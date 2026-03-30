@@ -32,6 +32,8 @@ export const addToCart = catchAsync(async (req, res,next) => {
   
 })
 
+
+
 export const removeFromCart = catchAsync(async (req, res,next) => {
   let { productId } = req.body;
 

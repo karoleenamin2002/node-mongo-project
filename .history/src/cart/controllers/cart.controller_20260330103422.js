@@ -4,7 +4,8 @@ export const getCart = catchAsync(async (req, res,next) => {
   let cart = await cartModel
     .findOne({ user: req.user.id })
     .populate("items.product");
-    return successResponse(res, 200, "Cart Products fetched successfully", cart)
+    return successResponse(res, 200, "Cart Products fetched successfully", cart);
+  
 })
 
 export const addToCart = catchAsync(async (req, res,next) => {
@@ -21,16 +22,20 @@ export const addToCart = catchAsync(async (req, res,next) => {
     let item = cart.items.find(
       (el) => el.product.toString() === productId
     );
+
     if (item) {
       item.quantity += quantity;
     } else {
       cart.items.push({ product: productId, quantity });
     }
+
     await cart.save();
   }
     return successResponse(res, 200, "Your Product Added successfully",cart);
   
 })
+
+
 
 export const removeFromCart = catchAsync(async (req, res,next) => {
   let { productId } = req.body;

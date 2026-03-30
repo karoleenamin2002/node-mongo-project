@@ -1,6 +1,8 @@
 import dotenv from "dotenv";
 import { connectDB } from "./src/config/db.js";
+<<<<<<< HEAD
 import cartRouter from "./src/cart/routes/cart.routes.js"
+
 import express from "express";
 import userRoute from "./src/users/routes/user.route.js";
 import productRoute from "./src/products/routers/product.routes.js";
@@ -9,9 +11,9 @@ import { AppError, catchAsync } from "./src/utils/errorHandler.js";
 dotenv.config();
 const app = express();
 app.use(express.json());
+app.use("/cart",cartRouter)
 connectDB();
 
-app.use("/cart",cartRouter)
 app.use("/users", userRoute);
 app.use("/products", productRoute);
 

@@ -11,7 +11,7 @@ const cartSchema = new mongoose.Schema(
       {
         product: {
           type: mongoose.Types.ObjectId,
-          ref: "Product", // == جداً
+          ref: "Product", 
           required: true,
         },
         quantity: {

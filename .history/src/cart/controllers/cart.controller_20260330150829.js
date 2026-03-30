@@ -72,6 +72,9 @@ export const updateQty =catchAsync( async (req, res,next) => {
 } else {
   item.quantity = quantity;
 }
+  if (item) {
+    item.quantity = quantity;
+  }
   await cart.save();
   return successResponse(res, 200, "Products Updated successfully", cart);
 })

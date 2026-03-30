@@ -1,25 +1,25 @@
 import userModel from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { catchAsync, AppError } from "../../utils/errorHandler.js"; 
+import { catchAsync, AppError } from "../../utils/errorHandler.js";
 import { successResponse } from "../../utils/apiResponse.js";
 
 export const SignUp = catchAsync(async (req, res, next) => {
   const user = await userModel.create(req.body);
-
   user.password = undefined;
-
   return successResponse(res, 201, "User registered successfully", user);
 });
 
 export const Login = catchAsync(async (req, res, next) => {
-  const { email, password } = req.body; 
+  const { email, password } = req.body;
 
-  const user = await userModel.findOne({ email });
+ 
+  const user = await userModel.findOne({ email }).select("+password");
 
   if (!user || !(await bcrypt.compare(password, user.password))) {
     return next(new AppError(401, "Invalid Email or Password"));
   }
+
 
   const token = jwt.sign(
     { id: user._id, username: user.name, role: user.role },
@@ -27,6 +27,7 @@ export const Login = catchAsync(async (req, res, next) => {
     { expiresIn: "1h" },
   );
 
+ 
   const refresh = jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: "1y",
   });
@@ -59,3 +60,4 @@ export const RefreshToken = catchAsync(async (req, res, next) => {
 
   return successResponse(res, 200, "Token refreshed successfully", { token });
 });
+

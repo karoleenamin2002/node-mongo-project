@@ -5,6 +5,7 @@ import express from "express";
 import userRoute from "./src/users/routes/user.route.js";
 import productRoute from "./src/products/routers/product.routes.js";
 import { AppError, catchAsync } from "./src/utils/errorHandler.js";
+import oderRouter from "./src/Order/routers/order.routers.js";
 
 dotenv.config();
 const app = express();
@@ -14,6 +15,7 @@ connectDB();
 app.use("/cart",cartRouter)
 app.use("/users", userRoute);
 app.use("/products", productRoute);
+app.use("/orders", oderRouter);
 
 app.all(/(.*)/, (req, res, next) => {
   next(new AppError(404, `Can't find ${req.originalUrl} on this server!`));
